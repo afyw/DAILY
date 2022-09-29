@@ -1,12 +1,15 @@
-const Koa = require('koa')
-const bodyParser = require('koa-bodyparser')
-const userRouter = require('../router/user.router')
+const Koa = require('koa');
+const bodyParser = require('koa-bodyparser');
 
-const app = new Koa()
+const userRouter = require('../router/user.router');
+const errorHandle = require('./error-handle');
 
-app.use(bodyParser())
-app.use(userRouter.routes())
-app.use(userRouter.allowedMethods())
-// 路径
+const app = new Koa();
 
-module.exports = app
+app.use(bodyParser());
+app.use(userRouter.routes());
+app.use(userRouter.allowedMethods());
+// 监听错误信息
+app.on('error', errorHandle);
+
+module.exports = app;
