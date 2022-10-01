@@ -10,6 +10,18 @@ const errorHandle = (error, ctx) => {
       status = 409; //conflict
       message = '用户名已经存在~';
       break;
+    case errorTypes.USER_DOES_NOT_EXISTS:
+      status = 400;
+      message = '用户不存在~';
+      break;
+    case errorTypes.PASSWORD_IS_INCORRECT:
+      status = 404;
+      message = '密码错误~';
+      break;
+    case errorTypes.UNAUTHORIZATION:
+      status = 401;
+      message = '未授权~';
+      break;
     default:
       status = 404;
       message = 'NOT Found';

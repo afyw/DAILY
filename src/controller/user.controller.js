@@ -9,5 +9,5 @@ class UserController {
     ctx.body = result;
   }
 }
-    
+
 module.exports = new UserController();
