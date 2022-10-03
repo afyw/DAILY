@@ -20,7 +20,11 @@ const errorHandle = (error, ctx) => {
       break;
     case errorTypes.UNAUTHORIZATION:
       status = 401;
-      message = '未授权~';
+      message = '无效token~';
+      break;
+    case errorTypes.UNPERMISSION:
+      status = 401;
+      message = '您不具备操作权限~';
       break;
     default:
       status = 404;
