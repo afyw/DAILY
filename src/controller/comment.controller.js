@@ -31,6 +31,11 @@ class CommentController {
     ctx.body = result;
     return result;
   }
+  async list(ctx, next) {
+    const { momentId } = ctx.query;
+    const result = await service.getCommentsByMomentId(momentId);
+    ctx.body = result;
+  }
 }
 
 module.exports = new CommentController();

@@ -1,4 +1,4 @@
-const { result } = require('lodash');
+const { result, takeRight } = require('lodash');
 const connection = require('../app/databse');
 class CommentService {
   async create(momentId, content, userId) {
@@ -31,6 +31,18 @@ class CommentService {
 
   async remove(commentId) {
     const statement = `DELETE FROM comment WHERE id = ?;`;
+    const [result] = await connection.execute(statement, [commentId]);
+    return result;
+  }
+
+  async getCommentsByMomentId(commentId) {
+    const statement = `
+    SELECT 
+	m.content,m.comment_id,m.createAt createTime,
+	JSON_OBJECT('id',u.id,'name',u.name) user
+	FROM comment m
+	LEFT JOIN users u ON u.id = m.user_id
+	WHERE moment_id = ?;`;
     const [result] = await connection.execute(statement, [commentId]);
     return result;
   }
