@@ -8,7 +8,8 @@ const {
   list,
   updateMoment,
   deleteMoment,
-  addLabels
+  addLabels,
+  fileInfo
 } = require('../controller/moment.controller.js');
 const {
   verifyAuth,
@@ -33,5 +34,7 @@ momentRouter.post(
   addLabels
 );
 
+// 给动态配图片的服务
+momentRouter.get('/images/:filename', fileInfo);
 
 module.exports = momentRouter;

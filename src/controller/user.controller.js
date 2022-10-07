@@ -14,6 +14,7 @@ class UserController {
   }
   async avatarInfo(ctx, next) {
     // 1.用户头像是哪一个文件
+    console.log('获取用户头像');
     const { userId } = ctx.params;
     const avatarInfo = await fileService.getAvatarByUserId(userId);
     // 2.提供图像信息

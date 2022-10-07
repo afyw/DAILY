@@ -1,4 +1,7 @@
+const fs = require('fs');
+const fileService = require('../service/file.service');
 const momentService = require('../service/moment.service');
+const { PICTURE_PATH } = require('../constants/file-path');
 class MomentController {
   async create(ctx, next) {
     //1.获取数据(user_id,count)
@@ -48,7 +51,6 @@ class MomentController {
     // 1.获取标签和动态Id
     const { labels } = ctx;
     const { momentId } = ctx.params;
-    console.log(123);
     //2.添加所有的标签
     // const result = await
     for (let label of labels) {
@@ -60,6 +62,23 @@ class MomentController {
       }
     }
     ctx.body = '给动态添加标签成功~';
+  }
+
+  async fileInfo(ctx, next) {
+    let { filename } = ctx.params;
+    //  momentId有多条，只能通过filename去查询
+
+    const fileInfo = await fileService.getFile(filename);
+    const { type } = ctx.query;
+    const types = ['small', 'middle', 'large'];
+    if (types.some((item) => item === type)) {
+      const fileStart = filename.split('.')[0];
+      const fileEnd = filename.split('.')[1];
+
+      filename = fileStart + '-' + type + '.' + fileEnd;
+    }
+    ctx.response.set('content-type', fileInfo.mimetype);
+    ctx.body = fs.createReadStream(`${PICTURE_PATH}/${filename}`);
   }
 }
 

@@ -1,7 +1,14 @@
 const Router = require('koa-router');
 const { verifyAuth } = require('../middleware/auth.middleware');
-const { avatarHandle } = require('../middleware/file.middleware');
-const { saveAvatarInfo } = require('../controller/file.controller');
+const {
+  avatarHandle,
+  pictureHandle,
+  pictureResize
+} = require('../middleware/file.middleware');
+const {
+  saveAvatarInfo,
+  savePictureInfo
+} = require('../controller/file.controller');
 const fileRouter = new Router({ prefix: '/upload' });
 
 //  verifyAuth,
@@ -9,5 +16,11 @@ const fileRouter = new Router({ prefix: '/upload' });
 //   controller(保存图像信息)
 
 fileRouter.post('/avatar', verifyAuth, avatarHandle, saveAvatarInfo);
-
+fileRouter.post(
+  '/picture',
+  verifyAuth,
+  pictureHandle,
+  pictureResize,
+  savePictureInfo
+);
 module.exports = fileRouter;
